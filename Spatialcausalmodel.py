@@ -2279,3 +2279,44 @@ w_0LF = global_params['w_0LF']
 w_eLS = global_params['w_eLS']
 w_eLF = global_params['w_eLF']
 w_eBD = global_params['w_eBD']
+
+# Visualization
+import numpy as np
+import matplotlib.pyplot as plt
+original_shape = (DPM.shape[0], DPM.shape[1])
+test_PLF1 = test_PLF.detach().cpu().numpy()
+test_PBD1 = test_PBD.detach().cpu().numpy()
+test_PLS1 = test_PLS.detach().cpu().numpy()
+test_ALS = test_ALS.cpu().detach().numpy()
+test_ALF = test_ALF.cpu().detach().numpy()
+test_ABD = test_ABD.cpu().detach().numpy()
+test_GammaLS1 = test_GammaLS.cpu().detach().numpy()
+test_GammaLF1 = test_GammaLF.cpu().detach().numpy()
+test_LambdaLS1 = test_LambdaLS.cpu().detach().numpy()
+test_LambdaLF1 = test_LambdaLF.cpu().detach().numpy()
+test_LambdaBD1 = test_LambdaBD.cpu().detach().numpy()
+
+LOCAL1 = LOCAL.cpu().detach().numpy()
+LOCAL_1_3_5_6_mask = ((LOCAL1 == 1) | (LOCAL1 == 3) | (LOCAL1 == 5) | (LOCAL1 == 6))
+test_GammaLS1_reshape = test_GammaLS1.reshape(original_shape)
+new_test_GammaLS1 = LOCAL_1_3_5_6_mask*test_GammaLS1_reshape
+
+LOCAL_2_4_5_6_mask = ((LOCAL1 == 2) | (LOCAL1 == 4) | (LOCAL1 == 5) | (LOCAL1 == 6))
+test_GammaLF1_reshape = test_GammaLF1.reshape(original_shape)
+new_test_GammaLF1 = LOCAL_2_4_5_6_mask*test_GammaLF1_reshape
+
+LOCAL_3_4_6_mask = ((LOCAL1 == 3) | (LOCAL1 == 4) | (LOCAL1 == 6))
+test_GammaLS_reshaped = new_test_GammaLS1
+test_GammaLF_reshaped = new_test_GammaLF1
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 6))
+
+im1 = axes[0].imshow(test_GammaLS_reshaped, cmap='Reds')
+axes[0].set_title('GammaLS')
+fig.colorbar(im1, ax=axes[0])
+im2 = axes[1].imshow(test_GammaLF_reshaped, cmap='Blues')
+axes[1].set_title('GammaLF')
+fig.colorbar(im2, ax=axes[1])
+
+plt.tight_layout()
+plt.show()
