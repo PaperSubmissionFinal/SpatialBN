@@ -99,12 +99,7 @@ git clone https://github.com/PaperSubmissionFinal/SpatialBN.git
 cd SpatialBN
 ```
 
-2. Open and run the Jupyter notebook:
-```bash
-jupyter notebook spatial_vcbn.ipynb
-```
-
-3. Follow the notebook sections sequentially to execute the entire pipeline.
+2. Follow the notebook sections sequentially to execute the entire pipeline.
 
 ## Data Preparation
 
